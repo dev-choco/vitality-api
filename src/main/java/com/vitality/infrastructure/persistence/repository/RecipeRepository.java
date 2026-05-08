@@ -1,0 +1,39 @@
+package com.vitality.infrastructure.persistence.repository;
+
+import com.vitality.domain.model.Recipe;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
+
+  Optional<Recipe> findBySlug(String slug);
+
+  Page<Recipe> findByActiveTrue(Pageable pageable);
+
+  Page<Recipe> findByGoalTagsContainingIgnoreCaseAndActiveTrue(String goalTag, Pageable pageable);
+
+  @Query("""
+      SELECT DISTINCT r FROM Recipe r
+      JOIN r.ingredients i
+      JOIN i.food f
+      WHERE r.active = true
+      AND LOWER(f.name) IN :ingredientNames
+      GROUP BY r
+      ORDER BY COUNT(DISTINCT f.id) DESC
+      """)
+  Page<Recipe> findByIngredientNames(@Param("ingredientNames") List<String> ingredientNames,
+                                     Pageable pageable);
+
+  @Query("SELECT r FROM Recipe r WHERE r.active = true AND r.prepTimeMin <= :maxTime ORDER BY r.prepTimeMin ASC")
+  Page<Recipe> findQuickRecipes(@Param("maxTime") int maxTime, Pageable pageable);
+
+  Page<Recipe> findByBudgetTagContainingIgnoreCaseAndActiveTrue(String budgetTag,
+                                                                Pageable pageable);
+}

@@ -1,0 +1,34 @@
+# Build
+/build/
+/dist/
+/out/
+/target/
+*.class
+*.jar
+*.war
+
+# Gradle
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+!.env.example
+
+# Logs
+*.log
+
+# Node (backend test resources)
+node_modules/
