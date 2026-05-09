@@ -1,16 +1,11 @@
 server:
-  port: 8080
+  port: 9000
   servlet:
-    context-path: /api/v1
+    context-path: /vitality-api/v1
 
 spring:
   application:
-    name: vitality
-  datasource:
-    url: jdbc:postgresql://localhost:5432/vitality
-    username: vitality
-    password: ${DB_PASSWORD:vitality1234}
-    driver-class-name: org.postgresql.Driver
+    name: vitality-api
   jpa:
     hibernate:
       ddl-auto: validate
@@ -20,17 +15,6 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-app:
-  jwt:
-    secret: ${JWT_SECRET:YjN8eHcyaDhrdTVlN2tqZnQ4bHkzcDZlNHg1dTluOHIydTBlcjR3OWowbTF0djlhM2U3b3NwNmVlMjRtOA==}
-    access-token-expiration: 900000
-    refresh-token-expiration: 604800000
-  google:
-    client-id: ${GOOGLE_CLIENT_ID:698316200364-tl3t0nd32e949v2fp9lfullrfpc9p443.apps.googleusercontent.com}
-  cors:
-    allowed-origins: ${CORS_ORIGINS:http://localhost:4200,http://localhost}
-
 logging:
   level:
-    com.vitality: DEBUG
     org.springframework.security: INFO

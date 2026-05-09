@@ -14,4 +14,4 @@ COPY build/libs/vitality-backend-1.0.0.jar \
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "java -jar -Dfile.encoding=UTF-8 /opt/spring-boot/vitality-backend-1.0.0.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar -Dfile.encoding=UTF-8 -D-Dspring.profiles.active=docker /opt/spring-boot/vitality-backend-1.0.0.jar"]
