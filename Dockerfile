@@ -1,3 +1,10 @@
+# Stage 1: Build
+FROM gradle:9.4-jdk25 AS build
+WORKDIR /app
+COPY . .
+RUN gradle clean bootJar -x test
+
+# Stage 2: Run
 FROM amazoncorretto:25-alpine
 
 LABEL maintainer="Vitality"
@@ -8,10 +15,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 
 WORKDIR /opt/spring-boot
 
-### Copy only the fat jar
-COPY build/libs/vitality-backend-1.0.0.jar \
-  /opt/spring-boot/vitality-backend-1.0.0.jar
+COPY --from=build /app/build/libs/*.jar vitality-backend.jar
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "java -jar -Dfile.encoding=UTF-8 -Dspring.profiles.active=docker /opt/spring-boot/vitality-backend-1.0.0.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar -Dfile.encoding=UTF-8 -Dspring.profiles.active=docker /opt/spring-boot/vitality-backend.jar"]
