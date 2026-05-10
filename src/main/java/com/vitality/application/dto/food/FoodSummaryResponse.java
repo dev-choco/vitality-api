@@ -5,6 +5,7 @@ public record FoodSummaryResponse(
     String name,
     String slug,
     String categoryName,
+    String categoryIcon,
     String imageUrl,
     String primaryBenefit,
     String consumptionSuggestion

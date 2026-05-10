@@ -115,6 +115,7 @@ public class FoodService {
         food.getName(),
         food.getSlug(),
         food.getCategory().getName(),
+        food.getCategory().getIcon(),
         food.getImageUrl(),
         extractPrimaryBenefit(food.getBenefits()),
         food.getConsumptionTips()
