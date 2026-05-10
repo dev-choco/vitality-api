@@ -11,6 +11,8 @@ import com.vitality.infrastructure.persistence.repository.RecipeRepository;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,27 +23,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class RecipeService {
 
+  private static final Logger log = LoggerFactory.getLogger(RecipeService.class);
+
   private final RecipeRepository recipeRepository;
   private final FoodRepository foodRepository;
 
-  public Page<RecipeSummaryResponse> getAllRecipes(String goal, String budget, Pageable pageable) {
-    Page<Recipe> page;
+  public Page<RecipeSummaryResponse> getAllRecipes(String goal, String budget, String mealType,
+                                                   Pageable pageable) {
+    String goalPattern = (goal != null && !goal.isBlank()) ? "%" + goal.toLowerCase() + "%" : null;
+    String budgetPattern = (budget != null && !budget.isBlank()) ? "%" + budget.toLowerCase() + "%" : null;
+    String mealTypeParam = (mealType != null && !mealType.isBlank()) ? mealType.toLowerCase() : null;
 
-    if (goal != null && !goal.isBlank()) {
-      page = recipeRepository.findByGoalTagsContainingIgnoreCaseAndActiveTrue(goal, pageable);
-    } else if (budget != null && !budget.isBlank()) {
-      page = recipeRepository.findByBudgetTagContainingIgnoreCaseAndActiveTrue(budget, pageable);
-    } else {
-      page = recipeRepository.findByActiveTrue(pageable);
-    }
-
+    Page<Recipe> page = recipeRepository.findByFilters(goalPattern, budgetPattern, mealTypeParam,
+        pageable);
     return page.map(this::toSummary);
   }
 
   public Page<RecipeSummaryResponse> getRecipesByIngredients(String ingredients,
-                                                             Pageable pageable) {
+                                                              Pageable pageable) {
     if (ingredients == null || ingredients.isBlank()) {
-      return getAllRecipes(null, null, pageable);
+      return getAllRecipes(null, null, null, pageable);
     }
 
     List<String> ingredientNames = Arrays.stream(ingredients.split(","))
@@ -50,8 +51,17 @@ public class RecipeService {
         .filter(s -> !s.isEmpty())
         .toList();
 
-    Page<Recipe> page = recipeRepository.findByIngredientNames(ingredientNames, pageable);
-    return page.map(this::toSummary);
+    if (ingredientNames.isEmpty()) {
+      return getAllRecipes(null, null, null, pageable);
+    }
+
+    try {
+      Page<Recipe> page = recipeRepository.findByIngredientNames(ingredientNames, pageable);
+      return page.map(this::toSummary);
+    } catch (Exception e) {
+      log.warn("Error searching by ingredients '{}': {}", ingredients, e.getMessage());
+      return Page.empty(pageable);
+    }
   }
 
   public RecipeDetailResponse getRecipeById(Long id) {
@@ -81,6 +91,7 @@ public class RecipeService {
     recipe.setCarbsG(request.carbsG());
     recipe.setFatG(request.fatG());
     recipe.setGoalTags(request.goalTags());
+    recipe.setMealType(request.mealType());
     recipe.setInstructions(request.instructions());
 
     if (request.ingredients() != null) {

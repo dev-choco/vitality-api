@@ -1,8 +1,8 @@
 INSERT INTO food_categories (name, slug, icon) VALUES
-('Proteínas', 'proteinas', 'restaurant'),
+('Proteínas', 'proteinas', 'egg_alt'),
 ('Granos', 'granos', 'grain'),
 ('Vegetales', 'vegetales', 'eco'),
-('Frutas', 'frutas', 'apple');
+('Frutas', 'frutas', 'nutrition');
 
 INSERT INTO foods (name, slug, category_id, description, image_url, calories_per_100g, protein_g, carbs_g, fat_g, fiber_g, benefits, consumption_tips) VALUES
 ('Huevo', 'huevo', 1, 'Proteína completa de origen animal con todos los aminoácidos esenciales.', 'https://placehold.co/600x400/986b42/fffbff?text=Huevo', 155, 13, 1.1, 11, 0, 'Proteína completa,Económico', 'Revuelto con vegetales'),
@@ -19,15 +19,15 @@ INSERT INTO foods (name, slug, category_id, description, image_url, calories_per
 ('Espinaca', 'espinaca', 3, 'Hoja verde densa en nutrientes.', 'https://placehold.co/600x400/0b6947/ffffff?text=Espinaca', 23, 2.9, 3.6, 0.4, 2.2, 'Salud ocular,Inmunidad', 'Batido verde'),
 ('Aguacate', 'aguacate', 4, 'Fruta rica en grasas monoinsaturadas saludables.', 'https://placehold.co/600x400/30835f/f5fff6?text=Aguacate', 160, 2, 8.5, 14.7, 6.7, 'Grasas saludables,Piel radiante', 'Tostada integral');
 
-INSERT INTO recipes (title, slug, description, image_url, prep_time_min, difficulty, budget_tag, calories, protein_g, carbs_g, fat_g, goal_tags, instructions) VALUES
-('Avena con Frutos Rojos', 'avena-con-frutos-rojos', 'Desayuno nutritivo listo en minutos. Rico en fibra y antioxidantes.', 'https://placehold.co/600x400/e6e3d0/666556?text=Avena+Frutos+Rojos', 10, 'Fácil', 'bajo', 320, 12, 55, 8, 'bajar-peso,energia-diaria', 'Mezclar avena con leche y frutos rojos. Endulzar al gusto.'),
-('Tostada de Aguacate y Huevo', 'tostada-de-aguacate-y-huevo', 'Tostada integral con aguacate fresco y huevo en todas sus formas.', 'https://placehold.co/600x400/30835f/f5fff6?text=Tostada+Aguacate', 15, 'Fácil', 'bajo', 450, 18, 35, 22, 'subir-peso,energia-diaria', 'Tostar el pan. Machacar aguacate y colocar encima. Cocinar huevo al gusto.'),
-('Bowl de Pollo y Arroz', 'bowl-de-pollo-y-arroz', 'Almuerzo balanceado con proteína magra y carbohidratos complejos.', 'https://placehold.co/600x400/986b42/fffbff?text=Pollo+Arroz', 25, 'Media', 'bajo', 580, 42, 45, 12, 'subir-peso,energia-diaria', 'Cocinar arroz. Grillar el pollo. Mezclar con vegetales.'),
-('Ensalada de Garbanzos', 'ensalada-de-garbanzos', 'Ensalada vegana fresca rica en proteína vegetal.', 'https://placehold.co/600x400/0b6947/ffffff?text=Ensalada+Garbanzos', 15, 'Fácil', 'bajo', 420, 15, 48, 18, 'bajar-peso', 'Mezclar garbanzos cocidos con verduras frescas y aderezo.'),
-('Arroz con Huevo y Espinaca', 'arroz-con-huevo-y-espinaca', 'Comida rápida y nutritiva con ingredientes básicos.', 'https://placehold.co/600x400/e6e3d0/666556?text=Arroz+Huevo+Espinaca', 10, 'Fácil', 'bajo', 380, 18, 45, 12, 'bajar-peso', 'Cocinar arroz. Saltear espinaca. Acompañar con huevo frito.'),
-('Lentejas al Curry', 'lentejas-al-curry', 'Guiso cremoso de lentejas con especias orientales.', 'https://placehold.co/600x400/986b42/fffbff?text=Lentejas+Curry', 25, 'Fácil', 'bajo', 350, 18, 52, 6, 'bajar-peso', 'Cocinar lentejas con cebolla. Agregar curry y leche de coco.'),
-('Bowl de Garbanzos Vital', 'bowl-de-garbanzos-vital', 'Bowl mediterráneo con garbanzos, aguacate y limón.', 'https://placehold.co/600x400/0b6947/ffffff?text=Garbanzos+Vital', 15, 'Fácil', 'bajo', 430, 16, 50, 16, 'energia-diaria', 'Mezclar garbanzos, aguacate en cubos y jugo de limón.'),
-('Tostada Energética', 'tostada-energetica', 'Tostada integral con palta y semillas para iniciar el día.', 'https://placehold.co/600x400/30835f/f5fff6?text=Tostada+Energetica', 5, 'Fácil', 'bajo', 310, 10, 32, 16, 'energia-diaria', 'Tostar pan integral. Untar palta y esparcir semillas.');
+INSERT INTO recipes (title, slug, description, image_url, prep_time_min, difficulty, budget_tag, calories, protein_g, carbs_g, fat_g, goal_tags, meal_type, instructions) VALUES
+('Avena con Frutos Rojos', 'avena-con-frutos-rojos', 'Desayuno nutritivo listo en minutos. Rico en fibra y antioxidantes.', 'https://placehold.co/600x400/e6e3d0/666556?text=Avena+Frutos+Rojos', 10, 'Fácil', 'bajo', 320, 12, 55, 8, 'bajar-peso,energia-diaria', 'desayuno', 'Mezclar avena con leche y frutos rojos. Endulzar al gusto.'),
+('Tostada de Aguacate y Huevo', 'tostada-de-aguacate-y-huevo', 'Tostada integral con aguacate fresco y huevo en todas sus formas.', 'https://placehold.co/600x400/30835f/f5fff6?text=Tostada+Aguacate', 15, 'Fácil', 'bajo', 450, 18, 35, 22, 'subir-peso,energia-diaria', 'desayuno', 'Tostar el pan. Machacar aguacate y colocar encima. Cocinar huevo al gusto.'),
+('Bowl de Pollo y Arroz', 'bowl-de-pollo-y-arroz', 'Almuerzo balanceado con proteína magra y carbohidratos complejos.', 'https://placehold.co/600x400/986b42/fffbff?text=Pollo+Arroz', 25, 'Media', 'bajo', 580, 42, 45, 12, 'subir-peso,energia-diaria', 'almuerzo', 'Cocinar arroz. Grillar el pollo. Mezclar con vegetales.'),
+('Ensalada de Garbanzos', 'ensalada-de-garbanzos', 'Ensalada vegana fresca rica en proteína vegetal.', 'https://placehold.co/600x400/0b6947/ffffff?text=Ensalada+Garbanzos', 15, 'Fácil', 'bajo', 420, 15, 48, 18, 'bajar-peso', 'almuerzo', 'Mezclar garbanzos cocidos con verduras frescas y aderezo.'),
+('Arroz con Huevo y Espinaca', 'arroz-con-huevo-y-espinaca', 'Comida rápida y nutritiva con ingredientes básicos.', 'https://placehold.co/600x400/e6e3d0/666556?text=Arroz+Huevo+Espinaca', 10, 'Fácil', 'bajo', 380, 18, 45, 12, 'bajar-peso', 'almuerzo', 'Cocinar arroz. Saltear espinaca. Acompañar con huevo frito.'),
+('Lentejas al Curry', 'lentejas-al-curry', 'Guiso cremoso de lentejas con especias orientales.', 'https://placehold.co/600x400/986b42/fffbff?text=Lentejas+Curry', 25, 'Fácil', 'bajo', 350, 18, 52, 6, 'bajar-peso', 'almuerzo', 'Cocinar lentejas con cebolla. Agregar curry y leche de coco.'),
+('Bowl de Garbanzos Vital', 'bowl-de-garbanzos-vital', 'Bowl mediterráneo con garbanzos, aguacate y limón.', 'https://placehold.co/600x400/0b6947/ffffff?text=Garbanzos+Vital', 15, 'Fácil', 'bajo', 430, 16, 50, 16, 'energia-diaria', 'almuerzo', 'Mezclar garbanzos, aguacate en cubos y jugo de limón.'),
+('Tostada Energética', 'tostada-energetica', 'Tostada integral con palta y semillas para iniciar el día.', 'https://placehold.co/600x400/30835f/f5fff6?text=Tostada+Energetica', 5, 'Fácil', 'bajo', 310, 10, 32, 16, 'energia-diaria', 'desayuno', 'Tostar pan integral. Untar palta y esparcir semillas.');
 
 INSERT INTO recipe_ingredients (recipe_id, food_id, quantity, unit) VALUES
 (1, 5, '1/2', 'taza'),

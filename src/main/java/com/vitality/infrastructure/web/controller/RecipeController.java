@@ -31,8 +31,9 @@ public class RecipeController {
   public ResponseEntity<Page<RecipeSummaryResponse>> getAllRecipes(
       @RequestParam(required = false) String goal,
       @RequestParam(required = false) String budget,
+      @RequestParam(required = false) String mealType,
       @PageableDefault(size = 20) Pageable pageable) {
-    return ResponseEntity.ok(recipeService.getAllRecipes(goal, budget, pageable));
+    return ResponseEntity.ok(recipeService.getAllRecipes(goal, budget, mealType, pageable));
   }
 
   @GetMapping("/by-ingredients")

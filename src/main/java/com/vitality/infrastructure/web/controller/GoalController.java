@@ -41,6 +41,6 @@ public class GoalController {
   public ResponseEntity<Page<RecipeSummaryResponse>> getRecipesByGoal(
       @PathVariable String slug,
       @PageableDefault(size = 20) Pageable pageable) {
-    return ResponseEntity.ok(recipeService.getAllRecipes(slug, null, pageable));
+    return ResponseEntity.ok(recipeService.getAllRecipes(slug, null, null, pageable));
   }
 }

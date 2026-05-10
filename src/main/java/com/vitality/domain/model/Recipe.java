@@ -65,6 +65,9 @@ public class Recipe {
   @Column(name = "goal_tags", length = 500)
   private String goalTags;
 
+  @Column(name = "meal_type", length = 30)
+  private String mealType;
+
   @Column(columnDefinition = "TEXT")
   private String instructions;
 

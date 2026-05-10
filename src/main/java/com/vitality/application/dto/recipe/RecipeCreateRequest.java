@@ -15,6 +15,7 @@ public record RecipeCreateRequest(
     Double carbsG,
     Double fatG,
     String goalTags,
+    String mealType,
     String instructions,
     List<IngredientRequest> ingredients
 ) {

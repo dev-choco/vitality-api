@@ -17,7 +17,17 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
   Page<Recipe> findByActiveTrue(Pageable pageable);
 
-  Page<Recipe> findByGoalTagsContainingIgnoreCaseAndActiveTrue(String goalTag, Pageable pageable);
+  @Query("""
+      SELECT r FROM Recipe r WHERE r.active = true
+      AND (:goalPattern IS NULL OR LOWER(r.goalTags) LIKE :goalPattern)
+      AND (:budgetPattern IS NULL OR LOWER(r.budgetTag) LIKE :budgetPattern)
+      AND (:mealType IS NULL OR LOWER(r.mealType) = :mealType)
+      ORDER BY r.id ASC
+      """)
+  Page<Recipe> findByFilters(@Param("goalPattern") String goalPattern,
+                             @Param("budgetPattern") String budgetPattern,
+                             @Param("mealType") String mealType,
+                             Pageable pageable);
 
   @Query("""
       SELECT DISTINCT r FROM Recipe r
@@ -33,7 +43,4 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
   @Query("SELECT r FROM Recipe r WHERE r.active = true AND r.prepTimeMin <= :maxTime ORDER BY r.prepTimeMin ASC")
   Page<Recipe> findQuickRecipes(@Param("maxTime") int maxTime, Pageable pageable);
-
-  Page<Recipe> findByBudgetTagContainingIgnoreCaseAndActiveTrue(String budgetTag,
-                                                                Pageable pageable);
 }
