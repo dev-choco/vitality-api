@@ -79,6 +79,32 @@ public class RecipeService {
   @Transactional
   public RecipeDetailResponse createRecipe(RecipeCreateRequest request) {
     Recipe recipe = new Recipe();
+    applyFields(recipe, request);
+    syncIngredients(recipe, request);
+    recipe = recipeRepository.save(recipe);
+    return toDetail(recipe);
+  }
+
+  @Transactional
+  public RecipeDetailResponse updateRecipe(Long id, RecipeCreateRequest request) {
+    Recipe recipe = recipeRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
+    applyFields(recipe, request);
+    recipe.getIngredients().clear();
+    syncIngredients(recipe, request);
+    recipe = recipeRepository.save(recipe);
+    return toDetail(recipe);
+  }
+
+  @Transactional
+  public void deleteRecipe(Long id) {
+    Recipe recipe = recipeRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
+    recipe.setActive(false);
+    recipeRepository.save(recipe);
+  }
+
+  private void applyFields(Recipe recipe, RecipeCreateRequest request) {
     recipe.setTitle(request.title());
     recipe.setSlug(generateSlug(request.title()));
     recipe.setDescription(request.description());
@@ -93,7 +119,9 @@ public class RecipeService {
     recipe.setGoalTags(request.goalTags());
     recipe.setMealType(request.mealType());
     recipe.setInstructions(request.instructions());
+  }
 
+  private void syncIngredients(Recipe recipe, RecipeCreateRequest request) {
     if (request.ingredients() != null) {
       for (var ing : request.ingredients()) {
         Food food = foodRepository.findById(ing.foodId())
@@ -106,17 +134,6 @@ public class RecipeService {
         recipe.getIngredients().add(ingredient);
       }
     }
-
-    recipe = recipeRepository.save(recipe);
-    return toDetail(recipe);
-  }
-
-  @Transactional
-  public void deleteRecipe(Long id) {
-    Recipe recipe = recipeRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
-    recipe.setActive(false);
-    recipeRepository.save(recipe);
   }
 
   private RecipeSummaryResponse toSummary(Recipe recipe) {
