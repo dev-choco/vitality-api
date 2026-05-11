@@ -1,5 +1,5 @@
 INSERT INTO users (email, password_hash, name, role_id) VALUES
-('admin@vitality.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+('admin@vitality.com', '$2b$10$ZCXKUTKmvo2R70wiXtF78..26qW392rfOmOvHNlrnI0NGvwYyRwuK',
  'Admin Vitality', (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'))
 ON CONFLICT (email) DO NOTHING;
 
