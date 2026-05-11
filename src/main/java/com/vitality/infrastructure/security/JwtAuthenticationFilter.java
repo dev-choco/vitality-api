@@ -1,5 +1,7 @@
 package com.vitality.infrastructure.security;
 
+import com.vitality.domain.model.User;
+import com.vitality.infrastructure.persistence.repository.RoleRepository;
 import com.vitality.infrastructure.persistence.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,9 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -37,10 +42,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       String email = jwtService.extractEmail(token);
       Long userId = jwtService.extractUserId(token);
 
+      List<SimpleGrantedAuthority> authorities = loadAuthorities(userId);
+
       UserDetails userDetails = new org.springframework.security.core.userdetails.User(
           email,
           "",
-          Collections.emptyList()
+          authorities
       );
 
       UsernamePasswordAuthenticationToken authToken =
@@ -51,6 +58,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
+  }
+
+  private List<SimpleGrantedAuthority> loadAuthorities(Long userId) {
+    return userRepository.findById(userId)
+        .map(User::getRole)
+        .map(role -> List.of(new SimpleGrantedAuthority(role.getName())))
+        .orElse(Collections.emptyList());
   }
 
   private String extractTokenFromRequest(HttpServletRequest request) {

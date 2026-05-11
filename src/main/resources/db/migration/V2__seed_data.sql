@@ -1,3 +1,8 @@
+INSERT INTO users (email, password_hash, name, role_id) VALUES
+('admin@vitality.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+ 'Admin Vitality', (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'))
+ON CONFLICT (email) DO NOTHING;
+
 INSERT INTO food_categories (name, slug, icon) VALUES
 ('Proteínas', 'proteinas', 'egg_alt'),
 ('Granos', 'granos', 'grain'),
