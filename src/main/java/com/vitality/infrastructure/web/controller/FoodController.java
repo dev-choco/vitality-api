@@ -1,6 +1,5 @@
 package com.vitality.infrastructure.web.controller;
 
-import com.vitality.application.dto.food.FoodCategoryResponse;
 import com.vitality.application.dto.food.FoodCreateRequest;
 import com.vitality.application.dto.food.FoodDetailResponse;
 import com.vitality.application.dto.food.FoodSummaryResponse;
@@ -32,11 +31,6 @@ public class FoodController {
       @RequestParam(required = false) String search,
       @RequestParam(required = false) Long categoryId) {
     return ResponseEntity.ok(foodService.getAllFoods(search, categoryId));
-  }
-
-  @GetMapping("/categories")
-  public ResponseEntity<List<FoodCategoryResponse>> getCategories() {
-    return ResponseEntity.ok(foodService.getAllCategories());
   }
 
   @GetMapping("/{id}")
