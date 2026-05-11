@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,9 @@ public class JwtService {
   }
 
   public String generateRefreshToken(Long userId, String email) {
-    return buildToken(new HashMap<>(), userId, email, refreshTokenExpiration);
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("jti", UUID.randomUUID().toString());
+    return buildToken(claims, userId, email, refreshTokenExpiration);
   }
 
   public String extractEmail(String token) {

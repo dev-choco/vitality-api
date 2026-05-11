@@ -42,7 +42,7 @@ public class User {
   @Column(name = "google_id", unique = true, length = 100)
   private String googleId;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "role_id")
   private Role role;
 
