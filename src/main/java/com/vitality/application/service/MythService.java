@@ -1,5 +1,6 @@
 package com.vitality.application.service;
 
+import com.vitality.application.dto.myth.MythCreateRequest;
 import com.vitality.application.dto.myth.MythDetailResponse;
 import com.vitality.application.dto.myth.MythSummaryResponse;
 import com.vitality.domain.model.Myth;
@@ -33,6 +34,43 @@ public class MythService {
     Myth myth = mythRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Myth not found"));
     return toDetail(myth);
+  }
+
+  @Transactional
+  public MythDetailResponse createMyth(MythCreateRequest request) {
+    Myth myth = new Myth();
+    myth.setMythText(request.mythText());
+    myth.setRealityText(request.realityText());
+    myth.setMythExplanation(request.mythExplanation());
+    myth.setRealityExplanation(request.realityExplanation());
+    myth.setCategory(request.category());
+    myth.setImageUrl(request.imageUrl());
+    myth.setScientificSource(request.scientificSource());
+    myth = mythRepository.save(myth);
+    return toDetail(myth);
+  }
+
+  @Transactional
+  public MythDetailResponse updateMyth(Long id, MythCreateRequest request) {
+    Myth myth = mythRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Myth not found"));
+    myth.setMythText(request.mythText());
+    myth.setRealityText(request.realityText());
+    myth.setMythExplanation(request.mythExplanation());
+    myth.setRealityExplanation(request.realityExplanation());
+    myth.setCategory(request.category());
+    myth.setImageUrl(request.imageUrl());
+    myth.setScientificSource(request.scientificSource());
+    myth = mythRepository.save(myth);
+    return toDetail(myth);
+  }
+
+  @Transactional
+  public void deleteMyth(Long id) {
+    Myth myth = mythRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Myth not found"));
+    myth.setActive(false);
+    mythRepository.save(myth);
   }
 
   private MythSummaryResponse toSummary(Myth myth) {

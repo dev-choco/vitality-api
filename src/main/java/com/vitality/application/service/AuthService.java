@@ -8,6 +8,7 @@ import com.vitality.application.dto.auth.*;
 import com.vitality.domain.model.RefreshToken;
 import com.vitality.domain.model.User;
 import com.vitality.infrastructure.persistence.repository.RefreshTokenRepository;
+import com.vitality.infrastructure.persistence.repository.RoleRepository;
 import com.vitality.infrastructure.persistence.repository.UserRepository;
 import com.vitality.infrastructure.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final RoleRepository roleRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
@@ -43,6 +45,7 @@ public class AuthService {
     user.setEmail(request.email().toLowerCase());
     user.setPasswordHash(passwordEncoder.encode(request.password()));
     user.setName(request.name());
+    user.setRole(roleRepository.findByName("ROLE_USER").orElse(null));
     user = userRepository.save(user);
 
     return generateTokens(user);
@@ -77,6 +80,7 @@ public class AuthService {
           newUser.setEmail(lowerEmail);
           newUser.setName(extractNameFromPayload(payload));
           newUser.setGoogleId(lowerEmail);
+          newUser.setRole(roleRepository.findByName("ROLE_USER").orElse(null));
           return userRepository.save(newUser);
         });
 

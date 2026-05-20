@@ -1,1 +1,1 @@
-rootProject.name = "vitality-backend"
+rootProject.name = "vitality-api"
